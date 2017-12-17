@@ -14,18 +14,147 @@
   c) unanswered questions
  10) add a "start over" button that will reset the game to the begiinning without reloading the page */
 
-
-
-// Global variables
-
-
-// function to start game
-
+// Ready function
+$(function () {
+    $("#play-again").hide();
+    $("#trivia-answers").hide();
+    
+    initGame();
     
 
+// Global variables
+var correctTotal = 0;
+var incorrectTotal = 0;
+var unansweredTotal = 0;
+
+// Array for the trivia game
+var triviaGame = [
+    {
+        question: "Who sold an aviation start-up called Aviato?",
+
+        answers: {
+            a: "Big Head",
+            b: "Richard",
+            c: "Erlich",
+            d: "Jared"
+        },
+
+        correctAnswer: "Erlich",
+        
+        image: ("assets/images/erlich.gif")
+    },
+
+    {
+        question: "What is the name of the website Richard is working on in the pilot episode?",
+
+        answers: {
+            a: "Green Archer",
+            b: "Pied Piper",
+            c: "Red Hood",
+            d: "Green Arrow"
+        },
+
+        correctAnswer: "Pied Piper",
+
+        image: ("assets/images/piedpiper.gif")
+    },
+
+    {
+        question: "Who said: 'Most CEOs don’t have a best friend just hanging around.'",
+
+        answers: {
+            a: "Gilfoyle",
+            b: "Richard",
+            c: "Erlich",
+            d: "Jared"
+        },
+
+        correctAnswer: "Jared",
+
+        image: ("assets/images/jared.gif")
+    },
+
+    {
+        question: "Who is revealed to be Canadian and gets himself a work visa?",
+
+        answers: {
+            a: "Gilfoyle",
+            b: "Peter",
+            c: "Jared",
+            d: "Richard"
+        },
+
+        correctAnswer: "Gilfoyle",
+
+        image: ("assets/images/gilfoyle.gif")
+    },
+
+    {
+        question: "Who said: “It’s weird having a girl in the house, it’s a very strange energy.”",
+
+        answers: {
+            a: "Big Head",
+            b: "Richard",
+            c: "Erlich",
+            d: "Dinesh"
+        },
+
+        correctAnswer: "Dinesh",
+        
+        image: ("assets/images/dinesh.gif")
+    },
+
+];
+   
+// function to start game by clicking the "start game" button
+function initGame() {
+    
+    $("#start-game").click(function () {
+        $("#start-gif").hide();
+        $("#start-game").hide();
+        createQuestion();
+       
+    
+    })
+}
+
+// Function to get question
+function createQuestion() {
+   for(var i = 0; i < triviaGame.length; i++) {
+       $("#trivia-question").html("<h3>" + triviaGame[i].question + "</h3>");
+
+       $("#answerA").html(triviaGame[i].answers.a);
+       $("#answerB").html(triviaGame[i].answers.b);
+       $("#answerC").html(triviaGame[i].answers.c);
+       $("#answerD").html(triviaGame[i].answers.d);
+
+       $("#trivia-answers").show();  
+       questionTimer();   
+    }
+}
+
+// Function to set the timer per question
+    var number = 30;
+    var intervalId;
+
+function questionTimer() {
+    intervalId = setInterval(decrement, 1000);
+    number--;
+    $("#timer").html("<h2>" + "Time remaining: " + number + "</h2>");
+
+    if(number === 0) {
+        stopTimer();
+        alert("Time is up!");
+    }
+
+}
+
+function stopTimer() {
+    clearInterval(intervalId);
+}
 
 
-// Win / lose function:
+// Function to check if answer is correct or not
 
 
 
@@ -33,5 +162,4 @@
 // Function to restart game when clicking button
 
 
-// Ready function
-
+});

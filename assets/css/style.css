@@ -8,31 +8,41 @@ body {
     background-image: url(../images/siliconvalley.jpeg);
 }
 
+.btn {
+    background-color: #dd1212;
+    font-weight: bold;
+    color: #ffffff;
+}
+
 .main {
     border: 2px solid #161515;
     margin-top: 20px;
     background-color: #fcfaf1;
 }
 
-.game-title {
+#game-title {
     margin-top: 40px;
+    margin-bottom: 20px;
     font-family: 'Bowlby One SC', cursive;
     color: #dd1212;
     font-weight: bold;
 }
 
-.start-giphy {
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
-
-
-.start-game {
-    margin-top: 30px;
-    margin-bottom: 130px;
-    width: 50%;
+.btn {
     background-color: #dd1212;
     font-weight: bold;
+    color: #ffffff;
+}
+
+#trivia-answers {
+    margin-top: 30px;
+    margin-bottom: 40px;
+}
+
+#start-game, #play-again {
+    margin-top: 40px;
+    margin-bottom: 130px;
+    width: 50%;
 }
 
 .footer {
