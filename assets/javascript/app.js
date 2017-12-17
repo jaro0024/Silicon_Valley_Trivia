@@ -113,7 +113,7 @@ function initGame() {
         $("#start-gif").hide();
         $("#start-game").hide();
         createQuestion();
-       
+        runTimer();
     
     })
 }
@@ -129,26 +129,32 @@ function createQuestion() {
        $("#answerD").html(triviaGame[i].answers.d);
 
        $("#trivia-answers").show();  
-       questionTimer();   
+       $("#timer").html("<h3>" + "Time remaining: " + number + "</h3>");
+
     }
+    console.log(createQuestion);
 }
 
 // Function to set the timer per question
     var number = 30;
     var intervalId;
 
-function questionTimer() {
+function runTimer() {
     intervalId = setInterval(decrement, 1000);
+    
+}
+
+function decrement() {
     number--;
-    $("#timer").html("<h2>" + "Time remaining: " + number + "</h2>");
+
+    $("#timer").html("<h3>" + "Time remaining: " + number + "</h3>");
 
     if(number === 0) {
         stopTimer();
         alert("Time is up!");
     }
-
 }
-
+    
 function stopTimer() {
     clearInterval(intervalId);
 }
