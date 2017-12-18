@@ -18,16 +18,23 @@
 $(function () {
     $("#play-again").hide();
     $("#trivia-answers").hide();
-    
+
     initGame();
-    
+
+})
 
 // Global variables
 var correctTotal = 0;
 var incorrectTotal = 0;
 var unansweredTotal = 0;
+var currentQuestion = 0;
+var timeLeft = 20;
+var timeBetween = 7;
+var interval;
+var playerChoice;
+var correctOption;
 
-// Array for the trivia game
+// Array for the trivia game including question, answers, correct answer and image for the correct answer
 var triviaGame = [
     {
         question: "Who sold an aviation start-up called Aviato?",
@@ -40,7 +47,7 @@ var triviaGame = [
         },
 
         correctAnswer: "Erlich",
-        
+
         image: ("assets/images/erlich.gif")
     },
 
@@ -60,7 +67,7 @@ var triviaGame = [
     },
 
     {
-        question: "Who said: 'Most CEOs don’t have a best friend just hanging around.'",
+        question: 'Who said: "Most CEOs don’t have a best friend just hanging around"?',
 
         answers: {
             a: "Gilfoyle",
@@ -90,7 +97,7 @@ var triviaGame = [
     },
 
     {
-        question: "Who said: “It’s weird having a girl in the house, it’s a very strange energy.”",
+        question: 'Who said: "It’s weird having a girl in the house, it’s a very strange energy"?',
 
         answers: {
             a: "Big Head",
@@ -100,72 +107,119 @@ var triviaGame = [
         },
 
         correctAnswer: "Dinesh",
-        
+
         image: ("assets/images/dinesh.gif")
     },
-
 ];
-   
+
 // function to start game by clicking the "start game" button
 function initGame() {
-    
     $("#start-game").click(function () {
         $("#start-gif").hide();
         $("#start-game").hide();
         createQuestion();
         runTimer();
-    
+        // checkAnswer();
+
+    })
+
+}
+
+
+// Function to get question and possible answers for that question 
+function createQuestion() {
+    // Get timer to show on page
+    $("#timer").html("<h3>" + "Time remaining: " + timeLeft + "</h3>");
+    // Get question to show on page
+    $("#trivia-question").html("<h3>" + triviaGame[currentQuestion].question + "</h3>");
+    for (var i = 0; i < triviaGame[currentQuestion].answers.length; i++) {
+        // Get the answers to show on page
+        $(".options").append(triviaGame[currentQuestion].answers[i]);
+    }
+    $("#trivia-answers").show();
+}
+
+// Functions to set the timer per question
+// Function to run the timer
+function runTimer() {
+    interval = setInterval(decrement, 1000);
+}
+
+// Function to set decrement, so we can run the timer function
+function decrement() {
+    timeLeft--;
+    // Get timer decrement to show on page
+    $("#timer").html("<h3>" + "Time remaining: " + timeLeft + "</h3>");
+    // When number decrements all the way to zero, timer stops
+    if (timeLeft === 0) {
+        clearInterval(interval);
+        unansweredTotal++;
+        // $("#correct-answer").html("Time is up! The correct answer is " + );
+        // $("#answer-gif").html();
+        // timeBetween();
+    }
+}
+
+// Function to create a timer in between questions
+function timerBetween(decrement) {
+    timeBetween--;
+    clearInterval(interval);
+};
+
+// Function to check player's answer
+function checkAnswer() {
+    for (var i = 0; i < triviaGame.length; i++) {
+        correctOption = triviaGame[i].correctAnswer;
+    }
+    $(".answers").click(function () {
+        playerChoice = $(this).attr('id');
+        console.log(playerChoice);
+        clearInterval(interval);
+        // if (playerChoice == correctOption) {
+        //     correctTotal++;
+        //     console.log(correctTotal);
+        // }
     })
 }
 
-// Function to get question
-function createQuestion() {
-   for(var i = 0; i < triviaGame.length; i++) {
-       $("#trivia-question").html("<h3>" + triviaGame[i].question + "</h3>");
-
-       $("#answerA").html(triviaGame[i].answers.a);
-       $("#answerB").html(triviaGame[i].answers.b);
-       $("#answerC").html(triviaGame[i].answers.c);
-       $("#answerD").html(triviaGame[i].answers.d);
-
-       $("#trivia-answers").show();  
-       $("#timer").html("<h3>" + "Time remaining: " + number + "</h3>");
-
-    }
-    console.log(createQuestion);
-}
-
-// Function to set the timer per question
-    var number = 30;
-    var intervalId;
-
-function runTimer() {
-    intervalId = setInterval(decrement, 1000);
-    
-}
-
-function decrement() {
-    number--;
-
-    $("#timer").html("<h3>" + "Time remaining: " + number + "</h3>");
-
-    if(number === 0) {
-        stopTimer();
-        alert("Time is up!");
-    }
-}
-    
-function stopTimer() {
-    clearInterval(intervalId);
-}
-
-
 // Function to check if answer is correct or not
+function correctAnswer() {
+    $("#correct-answer").text("Good Job! The correct answer is " + triviaGame.correctAnswer + "!");
+}
+
+function incorrectAnswer() {
+    $("#correct-answer").text("Sorry! The correct answer is " + triviaGame.correctAnswer + "!");
+}
+
+
+// Function to show the stats and give an option to click in a button to play again after game is over
+function gameOver() {
+    $("#start-gif").show();
+    $("#correct-total").html("Correct answers: " + correctTotal);
+    $("#incorrect-total").html("Incorrect answers: " + incorrectTotal);
+    $("#unanswered-total").html("Unanswered answers: " + unansweredTotal);
+    $("#play-again").show();
+    $("#trivia-question").hide();
+    $("#trivia-answers").hide();
+    $("#answer-gif").hide();
+    $("#start-game").hide();
+}
+// Function to restart game when clicking "play again?" button
+$("#play-again").click(function () {
+    $("#start-gif").hide();
+    $("#correct-total").hide();
+    $("#incorrect-total").hide();
+    $("#unanswered-total").hide();
+    $("#play-again").hide();
+    $("#trivia-question").show();
+    correctTotal = 0;
+    incorrectTotal = 0;
+    unansweredTotal = 0;
+    createQuestion();
+    runTimer();
+    checkAnswer();
+
+})
 
 
 
-
-// Function to restart game when clicking button
-
-
-});
