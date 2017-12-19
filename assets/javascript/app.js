@@ -1,8 +1,8 @@
 
 // Ready function
 $(function () {
-    $("#play-again").hide();
-    $("#trivia-answers").hide();
+    $("#question-section").hide();
+    $("#results-section").hide();
 
     initGame();
 })
@@ -58,8 +58,8 @@ var currentQuestion = 0;
 // function to start game by clicking the "start game" button
 function initGame() {
     $("#start-game").click(function () {
-        $("#start-gif").hide();
-        $("#start-game").hide();
+        $("#question-section").show();
+        $("#start-section").hide();
         createQuestion();
         runTimer();
         // checkAnswer();
@@ -72,18 +72,17 @@ function createQuestion() {
     $("#timer").html("<h3>" + "Time remaining: " + timeLeft + "</h3>");
     // Get question to show on page
     $("#trivia-question").html("<h3>" + triviaGame[currentQuestion].question + "</h3>");
-    
-    for (var i = 0; i < triviaGame[currentQuestion].answers.length; i++) {
         // Get the answers to show on page
-        $(".options").html(triviaGame[currentQuestion].answers[i]);
-    }
-    $("#trivia-answers").show();
+        $("#answerA").html(triviaGame[currentQuestion].answers[0]);
+        $("#answerB").html(triviaGame[currentQuestion].answers[1]);
+        $("#answerC").html(triviaGame[currentQuestion].answers[2]);
+        $("#answerD").html(triviaGame[currentQuestion].answers[3]);
 }
 
 // Function to go to next question after player answers a question or time runs out
-function nextQuestion() {
+// function nextQuestion() {
 
-}
+// }
 
 // Functions to set the timer per question
 // Function to run the timer
@@ -101,12 +100,10 @@ function timeUp() {
         clearInterval(interval);
         // Number of unanswered questions increase by 1 and it shows page with time is up msg, correct answer and gif
         unansweredTotal++;
-        $("#trivia-question").hide();
-        $("#trivia-answers").hide();
+        $("#question-section").hide();
+        $("#answer-section").show();
         $("#correct-answer").html("<h3>" + "Time is up! The correct answer is " + "<h3>");
         $("#answer-gif").html();
-        $("#correct-answer").show();
-        $("#answer-gif").show();
         // timerBetween();
     }
 }
@@ -142,37 +139,30 @@ function checkAnswer() {
 //     $("#correct-answer").text("Sorry! The correct answer is " + triviaGame.correctAnswer + "!");
 // }
 
-
 // Function to show the stats and give an option to click on a reset button to play again after game is over
 function gameOver() {
-    $("#start-gif").show();
+    $("#start-section").hide();
+    $("#questions-section").hide();
+    $("#answer-section").hide();
+    $("#results-section").show();
     $("#correct-total").html("Correct answers: " + correctTotal);
     $("#incorrect-total").html("Incorrect answers: " + incorrectTotal);
     $("#unanswered-total").html("Unanswered answers: " + unansweredTotal);
-    $("#play-again").show();
-    $("#trivia-question").hide();
-    $("#trivia-answers").hide();
-    $("#answer-gif").hide();
-    $("#start-game").hide();
 }
 
 // Function to reset and restart game when clicking "play again?" button
 $("#play-again").click(function () {
-    $("#start-gif").hide();
-    $("#correct-total").hide();
-    $("#incorrect-total").hide();
-    $("#unanswered-total").hide();
-    $("#play-again").hide();
-    $("#correct-answer").hide();
-    $("#answer-gif").hide();
-    $("#trivia-question").show();
+    $("#Start-section").hide();
+    $("#results-section").hide();
+    $("#answer-section").hide();
+    $("#questions-section").show();
     correctTotal = 0;
     incorrectTotal = 0;
     unansweredTotal = 0;
     timeLeft = 20;
     createQuestion();
     runTimer();
-    checkAnswer();
+    // checkAnswer();
 })
 
 
