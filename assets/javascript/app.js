@@ -23,94 +23,56 @@ $(function () {
 
 })
 
-// Global variables
-var correctTotal = 0;
-var incorrectTotal = 0;
-var unansweredTotal = 0;
-var currentQuestion = 0;
-var timeLeft = 20;
-var timeBetween = 7;
-var interval;
-var playerChoice;
-var correctOption;
-
 // Array for the trivia game including question, answers, correct answer and image for the correct answer
 var triviaGame = [
     {
         question: "Who sold an aviation start-up called Aviato?",
-
-        answers: {
-            a: "Big Head",
-            b: "Richard",
-            c: "Erlich",
-            d: "Jared"
-        },
-
+        answers: ["Big Head", "Richard", "Erlich", "Jared"],
         correctAnswer: "Erlich",
-
         image: ("assets/images/erlich.gif")
     },
 
     {
         question: "What is the name of the website Richard is working on in the pilot episode?",
-
-        answers: {
-            a: "Green Archer",
-            b: "Pied Piper",
-            c: "Red Hood",
-            d: "Green Arrow"
-        },
-
+        answers: ["Green Archer", "Pied Piper", "Red Hood", "Green Arrow"],
         correctAnswer: "Pied Piper",
-
         image: ("assets/images/piedpiper.gif")
     },
 
     {
         question: 'Who said: "Most CEOs don’t have a best friend just hanging around"?',
-
-        answers: {
-            a: "Gilfoyle",
-            b: "Richard",
-            c: "Erlich",
-            d: "Jared"
-        },
-
+        answers: ["Gilfoyle", "Richard", "Erlich", "Jared"],
         correctAnswer: "Jared",
-
         image: ("assets/images/jared.gif")
     },
 
     {
         question: "Who is revealed to be Canadian and gets himself a work visa?",
-
-        answers: {
-            a: "Gilfoyle",
-            b: "Peter",
-            c: "Jared",
-            d: "Richard"
-        },
-
+        answers: ["Gilfoyle", "Peter", "Jared", "Richard"],
         correctAnswer: "Gilfoyle",
-
         image: ("assets/images/gilfoyle.gif")
     },
 
     {
         question: 'Who said: "It’s weird having a girl in the house, it’s a very strange energy"?',
-
-        answers: {
-            a: "Big Head",
-            b: "Richard",
-            c: "Erlich",
-            d: "Dinesh"
-        },
-
+        answers: ["Big Head", "Richard", "Erlich", "Dinesh"],
         correctAnswer: "Dinesh",
-
         image: ("assets/images/dinesh.gif")
-    },
-];
+    }];
+
+// Global variables
+var correctTotal = 0;
+var incorrectTotal = 0;
+var unansweredTotal = 0;
+// var index = 0;
+var timeLeft = 20;
+var timeBetween = 7;
+var interval;
+var playerChoice;
+var correctOption;
+var currentQuestion = 0;
+// var triviaQuestion;
+// var triviaAnswers = []
 
 // function to start game by clicking the "start game" button
 function initGame() {
@@ -120,11 +82,8 @@ function initGame() {
         createQuestion();
         runTimer();
         // checkAnswer();
-
     })
-
 }
-
 
 // Function to get question and possible answers for that question 
 function createQuestion() {
