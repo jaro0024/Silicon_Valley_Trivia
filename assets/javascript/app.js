@@ -67,7 +67,7 @@ function initGame() {
 
 // Function to get question and possible answers for that question 
 function createQuestion() {
-    // Get timer to show on page
+    // Get timer to show on page and run the timer function
     $("#timer").html("<h3>" + "Time remaining: " + timeLeft + "</h3>");
     runTimer();
     // Get question to show on page
@@ -77,8 +77,37 @@ function createQuestion() {
     $("#answerB").html(triviaGame[currentQuestion].answers[1]);
     $("#answerC").html(triviaGame[currentQuestion].answers[2]);
     $("#answerD").html(triviaGame[currentQuestion].answers[3]);
-
+    // Run function to check what player clicked and compare to correct answer
     checkAnswer();
+}
+
+// Function to get player's answer and check if it is correct or not
+function checkAnswer() {
+    $(".options").click(function () {
+        playerChoice = $(this).text();
+        console.log(playerChoice);
+        clearInterval(interval);
+        for (var i = 0; i < triviaGame.length; i++) {
+            correctOption = triviaGame[i].correctAnswer;
+            console.log(correctOption);
+            if (playerChoice === correctOption) {
+                correctTotal++;
+                // $("#correct-answer").html("<h3>" + "Good Job! You got it right!" + "</h3>");
+                console.log("correct " + correctTotal);
+            }
+            else {
+                incorrectTotal++;
+                // $("#correct-answer").html("<h3>" + "Sorry! The correct answer is " +  + "!" + "</h3>");
+                console.log(incorrectTotal);
+            }
+        }
+        $("#question-section").hide();
+        $("#answer-section").show();
+        timeInterim = setTimeout(function () {
+            $("#question-section").show()
+        }, 5000);
+        nextQuestion();
+    })
 }
 
 // Function to go to next question after player answers a question or time runs out
@@ -88,7 +117,7 @@ function nextQuestion() {
     createQuestion();
 }
 
-// Functions to set the timer per question
+
 // Function to run the timer
 function runTimer() {
     interval = setInterval(timeUp, 1000);
@@ -106,41 +135,17 @@ function timeUp() {
         unansweredTotal++;
         $("#question-section").hide();
         $("#answer-section").show();
-        $("#correct-answer").html("<h3>" + "Time is up! The correct answer is " + "<h3>");
+        $("#correct-answer").html("<h3>" + "Time is up! The correct answer is " + + "<h3>");
         $("#answer-gif").html();
+        // Amount of time between the "Time is up!" msg and the next question
+        timeInterim = setTimeout(function () {
+            $("#question-section").show()
+        }, 5000)
+        // To get next question
+        nextQuestion();
     }
 }
 
-
-// Function to get player's answer and check if it is correct or not
-function checkAnswer() {
-    $(".options").click(function () {
-        playerChoice = $(this).text();
-        console.log(playerChoice);
-        clearInterval(interval);
-        for (var i = 0; i < triviaGame.length; i++) {
-            correctOption = triviaGame[i].correctAnswer;
-            console.log(correctOption);
-            if (playerChoice === correctOption) {
-                correctTotal++;
-                $("#correct-answer").html("<h3>" + "Good Job! You got it right!" + "</h3>");
-                console.log("correct " + correctTotal);
-            }
-            else {
-                incorrectTotal++;
-                $("#correct-answer").html("<h3>" + "Sorry! The correct answer is " + correctOption + "!" + "</h3>");
-                console.log(incorrectTotal);
-            }
-        }
-       
-        $("#question-section").hide();
-        $("#answer-section").show();
-        timeInterim = setTimeout(function () {
-            $("#question-section").show()
-        }, 5000);
-    })
-}
- 
 // function answeredCorrectly() {
 
 // }
@@ -148,7 +153,6 @@ function checkAnswer() {
 // function answeredIncorrectly() {
 
 // }
-
 
 // Function to show the stats and give an option to click on a reset button to play again after game is over
 function gameOver() {
@@ -183,14 +187,14 @@ $("#play-again").click(function () {
 
 
 /* Pseudo code:
- 1) Start button to go to the first question (click event)
- 2) once start button is clicked, start 30 second timer and show 1 question and 4 options - only one can be clicked (timer)
- 3) once an answer is clicked, timer stops and evaluate if answer is correct or not (click event and win/lose function)
+
+ 
+
  4) if correct, show page that says correct and a giphy (if / else statement)
  5) else if is incorrect, show page that says incorrect, gives the correct answer and a giphy (if / else statement)
  6) else, no answer before timer is up, show page that says you ran out of time, gives the correct answer and a giphy (if / else statement)
- 7) after 5 seconds, go to next question (timer) (for loop)
- 8) every time it evaluates if the answer is correct, incorrect or not answered, increment the respective variable (++)
+ 
+
  9) once the player has gone through all questions, show a screen with the stats:
   a) correct answers
   b) incorrect answers
