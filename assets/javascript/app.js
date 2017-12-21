@@ -22,7 +22,7 @@ var triviaGame = [
     },
 
     {
-        question: 'Who said: "Most CEOs don’t have a best friend just hanging around"?',
+        question: "Who said: 'Most CEOs don’t have a best friend just hanging around'?",
         answers: ["Gilfoyle", "Richard", "Erlich", "Jared"],
         correctAnswer: "Jared",
         image: ("assets/images/jared.gif")
@@ -36,7 +36,7 @@ var triviaGame = [
     },
 
     {
-        question: 'Who said: "It’s weird having a girl in the house, it’s a very strange energy"?',
+        question: "Who said: 'It’s weird having a girl in the house, it’s a very strange energy'?",
         answers: ["Big Head", "Richard", "Erlich", "Dinesh"],
         correctAnswer: "Dinesh",
         image: ("assets/images/dinesh.gif")
@@ -51,13 +51,13 @@ var showResults = $("#results-section");
 var correctTotal = 0;
 var incorrectTotal = 0;
 var unansweredTotal = 0;
-var timeLeft = 100;
-var timeInterim;
+var timeLeft = 20;
+var transitionTime;
 var interval;
 var playerChoice = "";
 var correctOption;
 var currentQuestion = 0;
-var correctAnswers = ["Erlich", "Pied Piper", "Jared", "Gilfoyle", "Dinesh"];
+// var correctAnswers = ["Erlich", "Pied Piper", "Jared", "Gilfoyle", "Dinesh"];
 
 // To show the section needed
 function showSection(sectionId) {
@@ -117,7 +117,7 @@ function checkAnswer() {
             }
         // }
         showSection(showAnswer);
-        timeInterim = setTimeout(function () {
+        transitionTime = setTimeout(function () {
             showSection(showQuestion);
         }, 5000);
         nextQuestion();
@@ -142,7 +142,7 @@ function timeUp() {
     // Get timer decrement to show on page
     $("#timer").html("<h3>" + "Time remaining: " + timeLeft + "</h3>");
     // When time gets down all the way to zero, timer stops 
-    if (timeLeft === 0) {
+    if (timeLeft == 0) {
         clearInterval(interval);
         // Number of unanswered questions increase by 1 and it shows page with time is up msg, correct answer and gif
         unansweredTotal++;
@@ -150,21 +150,13 @@ function timeUp() {
         $("#correct-answer").html("<h3>" + "Time is up! The correct answer is " + + "<h3>");
         $("#answer-gif").html();
         // Amount of time between the "Time is up!" msg and the next question
-        timeInterim = setTimeout(function () {
+        transitionTime = setTimeout(function () {
             showSection(showQuestion);
-        }, 5000)
+        }, 5000);
         // To get next question
         nextQuestion();
     }
 }
-
-// function answeredCorrectly() {
-
-// }
-
-// function answeredIncorrectly() {
-
-// }
 
 // Function to show the stats and give an option to click on a reset button to play again after game is over
 function gameOver() {
@@ -192,17 +184,9 @@ $("#play-again").click(function () {
 
 
 
-/* Pseudo code:
-
+/* Issues:
+ 1) Skipping question 3 all together
+ 2) Timer is taking the transition time of 5 seconds off when getting to next msg
+ 3) Can't get msg to show on the answer page correctly
  
-
- 4) if correct, show page that says correct and a giphy (if / else statement)
- 5) else if is incorrect, show page that says incorrect, gives the correct answer and a giphy (if / else statement)
- 6) else, no answer before timer is up, show page that says you ran out of time, gives the correct answer and a giphy (if / else statement)
- 
-
- 9) once the player has gone through all questions, show a screen with the stats:
-  a) correct answers
-  b) incorrect answers
-  c) unanswered questions
- 10) add a "start over" button that will reset the game to the begiinning without reloading the page */
+  */
