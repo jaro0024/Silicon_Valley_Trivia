@@ -1,10 +1,7 @@
 
 // Ready function
 $(function () {
-    $("#question-section").hide();
-    $("#results-section").hide();
-    $("#answer-section").hide();
-
+    showSection(showStart);
     initGame();
 })
 
@@ -46,21 +43,39 @@ var triviaGame = [
     }];
 
 // Global variables
+var sectionId = "";
+var showStart = $("#start-section");
+var showQuestion = $("#question-section");
+var showAnswer = $("#answer-section");
+var showResults = $("#results-section");
 var correctTotal = 0;
 var incorrectTotal = 0;
 var unansweredTotal = 0;
-var timeLeft = 20;
+var timeLeft = 100;
 var timeInterim;
 var interval;
 var playerChoice = "";
 var correctOption;
 var currentQuestion = 0;
+var correctAnswers = ["Erlich", "Pied Piper", "Jared", "Gilfoyle", "Dinesh"];
 
-// function to start game by clicking the "start game" button
+// To show the section needed
+function showSection(sectionId) {
+    //Hide all sections
+    showStart.hide();
+    showQuestion.hide();
+    showAnswer.hide();
+    showResults.hide();
+    // Show only the sectionId section
+    if (sectionId) {
+        sectionId.show();
+    }
+}
+
+// Function to start game by clicking the "start game" button
 function initGame() {
     $("#start-game").click(function () {
-        $("#question-section").show();
-        $("#start-section").hide();
+        showSection(showQuestion);
         createQuestion();
     })
 }
@@ -87,8 +102,8 @@ function checkAnswer() {
         playerChoice = $(this).text();
         console.log(playerChoice);
         clearInterval(interval);
-        for (var i = 0; i < triviaGame.length; i++) {
-            correctOption = triviaGame[i].correctAnswer;
+        // for (var i = 0; i < triviaGame.length; i++) {
+            correctOption = triviaGame[currentQuestion].correctAnswer;
             console.log(correctOption);
             if (playerChoice === correctOption) {
                 correctTotal++;
@@ -100,11 +115,10 @@ function checkAnswer() {
                 // $("#correct-answer").html("<h3>" + "Sorry! The correct answer is " +  + "!" + "</h3>");
                 console.log(incorrectTotal);
             }
-        }
-        $("#question-section").hide();
-        $("#answer-section").show();
+        // }
+        showSection(showAnswer);
         timeInterim = setTimeout(function () {
-            $("#question-section").show()
+            showSection(showQuestion);
         }, 5000);
         nextQuestion();
     })
@@ -112,7 +126,6 @@ function checkAnswer() {
 
 // Function to go to next question after player answers a question or time runs out
 function nextQuestion() {
-    $("#answer-section").hide();
     currentQuestion++;
     createQuestion();
 }
@@ -133,13 +146,12 @@ function timeUp() {
         clearInterval(interval);
         // Number of unanswered questions increase by 1 and it shows page with time is up msg, correct answer and gif
         unansweredTotal++;
-        $("#question-section").hide();
-        $("#answer-section").show();
+        showSection(showAnswer);
         $("#correct-answer").html("<h3>" + "Time is up! The correct answer is " + + "<h3>");
         $("#answer-gif").html();
         // Amount of time between the "Time is up!" msg and the next question
         timeInterim = setTimeout(function () {
-            $("#question-section").show()
+            showSection(showQuestion);
         }, 5000)
         // To get next question
         nextQuestion();
@@ -156,10 +168,7 @@ function timeUp() {
 
 // Function to show the stats and give an option to click on a reset button to play again after game is over
 function gameOver() {
-    $("#start-section").hide();
-    $("#questions-section").hide();
-    $("#answer-section").hide();
-    $("#results-section").show();
+    showSection(showResults);
     $("#correct-total").html("Correct answers: " + correctTotal);
     $("#incorrect-total").html("Incorrect answers: " + incorrectTotal);
     $("#unanswered-total").html("Unanswered answers: " + unansweredTotal);
@@ -167,10 +176,7 @@ function gameOver() {
 
 // Function to reset and restart game when clicking "play again?" button
 $("#play-again").click(function () {
-    $("#Start-section").hide();
-    $("#results-section").hide();
-    $("#answer-section").hide();
-    $("#questions-section").show();
+    showSection(showQuestion);
     correctTotal = 0;
     incorrectTotal = 0;
     unansweredTotal = 0;
