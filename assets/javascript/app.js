@@ -107,14 +107,15 @@ function checkAnswer() {
         if (playerChoice === correctOption) {
             answeredCorrectly();
         }
-        // else {
-        //     answeredIncorrectly();
-        // }
+        else {
+            answeredIncorrectly();
+        }
     })
 }
 
 // Function to go to next question after player answers a question or time runs out
 function nextQuestion() {
+    // showSection(showQuestion);
     currentQuestion++;
     timeLeft = 20;
     createQuestion();
@@ -124,27 +125,29 @@ function nextQuestion() {
 function answeredCorrectly() {
     correctTotal++;
     console.log(correctTotal);
-    // showSection(showAnswer);
-    // $("#correct-answer").html("<h3>" + "Good Job! You got it right!" + "</h3>");
-    if (triviaGame.currentQuestion == triviaGame.length - 1) {
-        setTimeout(results(), 3000);
-    }
-    else {
-        setTimeout(nextQuestion(), 3000);
-    }
+    showSection(showAnswer);
+    $("#correct-answer").html("<h3> Awesome! </h3><br>" + "<h3> You got it right!</h3>");
+    $("#answer-gif").html('<img class="gifs" src="'+ triviaGame[currentQuestion].image +'"/>');
+    // if (triviaGame.currentQuestion == triviaGame.length - 1) {
+    //     setTimeout(results(), 3000);
+    // }
+    // else {
+    //     setTimeout(nextQuestion(), 3000);
+    // }
 }
 
 function answeredIncorrectly() {
     incorrectTotal++;
     console.log(incorrectTotal);
-    // showSection(showAnswer);
-    // $("#correct-answer").html("<h3>" + "Sorry! The correct answer is " + + "!" + "</h3>");
-    if (triviaGame.currentQuestion == triviaGame.length - 1) {
-        setTimeout(results(), 3000);
-    }
-    else {
-        setTimeout(nextQuestion(), 3000);
-    }
+    showSection(showAnswer);
+    $("#correct-answer").html("<h3> Bummer! </h3><br>" + "<h3> The correct answer is " +triviaGame[currentQuestion].correctAnswer + "!" + "</h3>");
+    $("#answer-gif").html('<img class="gifs" src="'+ triviaGame[currentQuestion].image +'"/>');
+    // if (triviaGame.currentQuestion == triviaGame.length - 1) {
+    //     setTimeout(results(), 3000);
+    // }
+    // else {
+    //     setTimeout(nextQuestion(), 3000);
+    // }
 }
 
 // Function to run the timer
@@ -162,10 +165,13 @@ function timeUp() {
         clearInterval(interval);
         // Number of unanswered questions increase by 1 and it shows page with time is up msg, correct answer and gif
         unansweredTotal++;
+        console.log(unansweredTotal);
         showSection(showAnswer);
         $("#correct-answer").html("<h3> Time is up! </h3><br>" + "<h3> The correct answer is " + triviaGame[currentQuestion].correctAnswer+ "!" + "<h3>");
         $("#answer-gif").html('<img class="gifs" src="'+ triviaGame[currentQuestion].image +'"/>');
-        if (triviaGame.currentQuestion == triviaGame.length - 1) {
+        console.log(currentQuestion);
+        console.log(triviaGame.length-1);
+        if (currentQuestion === triviaGame.length - 1) {
             setTimeout(results(), 3000);
         }
         else {
@@ -201,8 +207,6 @@ $("#play-again").click(function () {
 
 
 /* Issues:
- 1) Skipping question 3 when I include the else statement on the checkAnswer function
- 2) Can't get msg to show on the answer page correctly
  3) The transition timer is not working. 
 
   */
