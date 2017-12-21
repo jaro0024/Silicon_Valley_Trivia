@@ -42,7 +42,18 @@ body {
 #trivia-answers {
     margin-top: 30px;
     margin-bottom: 70px;
-    
+}
+
+#correct-answer {
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+.gifs {
+    margin-top: 10px;
+    margin-bottom: 74px;
+    width: 400px;
+    height: 225px;
 }
 
 #start-game, #play-again {
@@ -54,7 +65,7 @@ body {
 .footer {
     width: 100%;
     height: 70px;
-    line-height: 50px; 
+    line-height: 60px; 
     color: #ffffff;
     text-align: center;
 }

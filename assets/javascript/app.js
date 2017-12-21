@@ -102,34 +102,50 @@ function checkAnswer() {
         playerChoice = $(this).text();
         console.log(playerChoice);
         clearInterval(interval);
-        // for (var i = 0; i < triviaGame.length; i++) {
-            correctOption = triviaGame[currentQuestion].correctAnswer;
-            console.log(correctOption);
-            if (playerChoice === correctOption) {
-                correctTotal++;
-                // $("#correct-answer").html("<h3>" + "Good Job! You got it right!" + "</h3>");
-                console.log("correct " + correctTotal);
-            }
-            else {
-                incorrectTotal++;
-                // $("#correct-answer").html("<h3>" + "Sorry! The correct answer is " +  + "!" + "</h3>");
-                console.log(incorrectTotal);
-            }
+        correctOption = triviaGame[currentQuestion].correctAnswer;
+        console.log(correctOption);
+        if (playerChoice === correctOption) {
+            answeredCorrectly();
+        }
+        // else {
+        //     answeredIncorrectly();
         // }
-        showSection(showAnswer);
-        transitionTime = setTimeout(function () {
-            showSection(showQuestion);
-        }, 5000);
-        nextQuestion();
     })
 }
 
 // Function to go to next question after player answers a question or time runs out
 function nextQuestion() {
     currentQuestion++;
+    timeLeft = 20;
     createQuestion();
+    runtimer();
 }
 
+function answeredCorrectly() {
+    correctTotal++;
+    console.log(correctTotal);
+    // showSection(showAnswer);
+    // $("#correct-answer").html("<h3>" + "Good Job! You got it right!" + "</h3>");
+    if (triviaGame.currentQuestion == triviaGame.length - 1) {
+        setTimeout(results(), 3000);
+    }
+    else {
+        setTimeout(nextQuestion(), 3000);
+    }
+}
+
+function answeredIncorrectly() {
+    incorrectTotal++;
+    console.log(incorrectTotal);
+    // showSection(showAnswer);
+    // $("#correct-answer").html("<h3>" + "Sorry! The correct answer is " + + "!" + "</h3>");
+    if (triviaGame.currentQuestion == triviaGame.length - 1) {
+        setTimeout(results(), 3000);
+    }
+    else {
+        setTimeout(nextQuestion(), 3000);
+    }
+}
 
 // Function to run the timer
 function runTimer() {
@@ -142,24 +158,24 @@ function timeUp() {
     // Get timer decrement to show on page
     $("#timer").html("<h3>" + "Time remaining: " + timeLeft + "</h3>");
     // When time gets down all the way to zero, timer stops 
-    if (timeLeft == 0) {
+    if (timeLeft <= 0) {
         clearInterval(interval);
         // Number of unanswered questions increase by 1 and it shows page with time is up msg, correct answer and gif
         unansweredTotal++;
         showSection(showAnswer);
-        $("#correct-answer").html("<h3>" + "Time is up! The correct answer is " + + "<h3>");
-        $("#answer-gif").html();
-        // Amount of time between the "Time is up!" msg and the next question
-        transitionTime = setTimeout(function () {
-            showSection(showQuestion);
-        }, 5000);
-        // To get next question
-        nextQuestion();
+        $("#correct-answer").html("<h3> Time is up! </h3><br>" + "<h3> The correct answer is " + triviaGame[currentQuestion].correctAnswer+ "!" + "<h3>");
+        $("#answer-gif").html('<img class="gifs" src="'+ triviaGame[currentQuestion].image +'"/>');
+        if (triviaGame.currentQuestion == triviaGame.length - 1) {
+            setTimeout(results(), 3000);
+        }
+        else {
+            setTimeout(nextQuestion(), 3000);
+        }
     }
 }
 
 // Function to show the stats and give an option to click on a reset button to play again after game is over
-function gameOver() {
+function results() {
     showSection(showResults);
     $("#correct-total").html("Correct answers: " + correctTotal);
     $("#incorrect-total").html("Incorrect answers: " + incorrectTotal);
@@ -185,8 +201,8 @@ $("#play-again").click(function () {
 
 
 /* Issues:
- 1) Skipping question 3 all together
- 2) Timer is taking the transition time of 5 seconds off when getting to next msg
- 3) Can't get msg to show on the answer page correctly
- 
+ 1) Skipping question 3 when I include the else statement on the checkAnswer function
+ 2) Can't get msg to show on the answer page correctly
+ 3) The transition timer is not working. 
+
   */
