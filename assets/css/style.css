@@ -12,6 +12,7 @@ body {
     background-color: #dd1212;
     font-weight: bold;
     color: #ffffff;
+    width: 50%;
 }
 
 .main {
@@ -32,13 +33,6 @@ body {
     margin-bottom: 20px;
 }
 
-.btn {
-    background-color: #dd1212;
-    font-weight: bold;
-    color: #ffffff;
-    width: 50%;
-}
-
 #trivia-answers {
     margin-top: 30px;
     margin-bottom: 70px;
@@ -56,10 +50,13 @@ body {
     height: 225px;
 }
 
-#start-game, #play-again {
+#results-section {
+    margin-top: 0px;
+}
+
+#start-game {
     margin-top: 50px;
     margin-bottom: 92px;
-    
 }
 
 .footer {

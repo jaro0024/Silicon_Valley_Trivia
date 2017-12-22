@@ -57,7 +57,6 @@ var interval;
 var playerChoice = "";
 var correctOption;
 var currentQuestion = 0;
-// var correctAnswers = ["Erlich", "Pied Piper", "Jared", "Gilfoyle", "Dinesh"];
 
 // To show the section needed
 function showSection(sectionId) {
@@ -115,7 +114,6 @@ function checkAnswer() {
 
 // Function to go to next question after player answers a question or time runs out
 function nextQuestion() {
-    // showSection(showQuestion);
     currentQuestion++;
     timeLeft = 20;
     createQuestion();
@@ -127,27 +125,17 @@ function answeredCorrectly() {
     console.log(correctTotal);
     showSection(showAnswer);
     $("#correct-answer").html("<h3> Awesome! </h3><br>" + "<h3> You got it right!</h3>");
-    $("#answer-gif").html('<img class="gifs" src="'+ triviaGame[currentQuestion].image +'"/>');
-    // if (triviaGame.currentQuestion == triviaGame.length - 1) {
-    //     setTimeout(results(), 3000);
-    // }
-    // else {
-    //     setTimeout(nextQuestion(), 3000);
-    // }
+    $("#answer-gif").html('<img class="gifs" src="' + triviaGame[currentQuestion].image + '"/>');
+    // transition();
 }
 
 function answeredIncorrectly() {
     incorrectTotal++;
     console.log(incorrectTotal);
     showSection(showAnswer);
-    $("#correct-answer").html("<h3> Bummer! </h3><br>" + "<h3> The correct answer is " +triviaGame[currentQuestion].correctAnswer + "!" + "</h3>");
-    $("#answer-gif").html('<img class="gifs" src="'+ triviaGame[currentQuestion].image +'"/>');
-    // if (triviaGame.currentQuestion == triviaGame.length - 1) {
-    //     setTimeout(results(), 3000);
-    // }
-    // else {
-    //     setTimeout(nextQuestion(), 3000);
-    // }
+    $("#correct-answer").html("<h3> Bummer! </h3><br>" + "<h3> The correct answer is " + triviaGame[currentQuestion].correctAnswer + "!" + "</h3>");
+    $("#answer-gif").html('<img class="gifs" src="' + triviaGame[currentQuestion].image + '"/>');
+    // transition();
 }
 
 // Function to run the timer
@@ -167,30 +155,34 @@ function timeUp() {
         unansweredTotal++;
         console.log(unansweredTotal);
         showSection(showAnswer);
-        $("#correct-answer").html("<h3> Time is up! </h3><br>" + "<h3> The correct answer is " + triviaGame[currentQuestion].correctAnswer+ "!" + "<h3>");
-        $("#answer-gif").html('<img class="gifs" src="'+ triviaGame[currentQuestion].image +'"/>');
-        console.log(currentQuestion);
-        console.log(triviaGame.length-1);
-        if (currentQuestion === triviaGame.length - 1) {
+        $("#correct-answer").html("<h3> Time is up! </h3><br>" + "<h3> The correct answer is " + triviaGame[currentQuestion].correctAnswer + "!" + "<h3>");
+        $("#answer-gif").html('<img class="gifs" src="' + triviaGame[currentQuestion].image + '"/>');
+        transition();
+    }
+}
+
+function transition() {
+     if (currentQuestion === triviaGame.length - 1) {
             setTimeout(results(), 3000);
+            showSection(showResults);
         }
         else {
             setTimeout(nextQuestion(), 3000);
-        }
-    }
+            showSection(showQuestion);
+        } 
 }
 
 // Function to show the stats and give an option to click on a reset button to play again after game is over
 function results() {
-    showSection(showResults);
-    $("#correct-total").html("Correct answers: " + correctTotal);
-    $("#incorrect-total").html("Incorrect answers: " + incorrectTotal);
-    $("#unanswered-total").html("Unanswered answers: " + unansweredTotal);
+    $("#correct-total").html("<h3> Correct answers: " + correctTotal + "</h3>");
+    $("#incorrect-total").html("<h3> Incorrect answers: " + incorrectTotal + "</h3>");
+    $("#unanswered-total").html("<h3> Unanswered answers: " + unansweredTotal + "</h3>");
 }
 
 // Function to reset and restart game when clicking "play again?" button
 $("#play-again").click(function () {
     showSection(showQuestion);
+    currentQuestion = 0;
     correctTotal = 0;
     incorrectTotal = 0;
     unansweredTotal = 0;
@@ -199,11 +191,6 @@ $("#play-again").click(function () {
     runTimer();
     checkAnswer();
 })
-
-
-
-
-
 
 
 /* Issues:
