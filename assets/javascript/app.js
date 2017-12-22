@@ -96,6 +96,7 @@ function createQuestion() {
 
 // Function to run the timer
 function runTimer() {
+    clearInterval(interval);
     interval = setInterval(timeUp, 1000);
 }
 
@@ -122,7 +123,6 @@ function nextQuestion() {
     currentQuestion++;
     timeLeft = 20;
     createQuestion();
-    runtimer();
 }
 
 // Function to get player's answer and check if it is correct or not
