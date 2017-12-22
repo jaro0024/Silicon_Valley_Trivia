@@ -95,6 +95,37 @@ function createQuestion() {
     checkAnswer();
 }
 
+// Function to run the timer
+function runTimer() {
+    interval = setInterval(timeUp, 1000);
+}
+
+// Function to set countdown, so we can run the timer function
+function timeUp() {
+    timeLeft--;
+    // Get timer countdown to show on page
+    $("#timer").html("<h3>" + "Time remaining: " + timeLeft + "</h3>");
+    // When time gets down all the way to zero, timer stops 
+    if (timeLeft <= 0) {
+        clearInterval(interval);
+        // Number of unanswered questions increase by 1 and it shows page with time is up msg, correct answer and gif
+        unansweredTotal++;
+        console.log(unansweredTotal);
+        showSection(showAnswer);
+        $("#correct-answer").html("<h3> Time is up! </h3><br>" + "<h3> The correct answer is " + triviaGame[currentQuestion].correctAnswer + "!" + "<h3>");
+        $("#answer-gif").html('<img class="gifs" src="' + triviaGame[currentQuestion].image + '"/>');
+        transition();
+    }
+}
+
+// Function to go to next question after player answers a question or time runs out
+function nextQuestion() {
+    currentQuestion++;
+    timeLeft = 20;
+    createQuestion();
+    runtimer();
+}
+
 // Function to get player's answer and check if it is correct or not
 function checkAnswer() {
     $(".options").click(function () {
@@ -110,14 +141,6 @@ function checkAnswer() {
             answeredIncorrectly();
         }
     })
-}
-
-// Function to go to next question after player answers a question or time runs out
-function nextQuestion() {
-    currentQuestion++;
-    timeLeft = 20;
-    createQuestion();
-    runtimer();
 }
 
 function answeredCorrectly() {
@@ -138,29 +161,6 @@ function answeredIncorrectly() {
     // transition();
 }
 
-// Function to run the timer
-function runTimer() {
-    interval = setInterval(timeUp, 1000);
-}
-
-// Function to set decrement, so we can run the timer function
-function timeUp() {
-    timeLeft--;
-    // Get timer decrement to show on page
-    $("#timer").html("<h3>" + "Time remaining: " + timeLeft + "</h3>");
-    // When time gets down all the way to zero, timer stops 
-    if (timeLeft <= 0) {
-        clearInterval(interval);
-        // Number of unanswered questions increase by 1 and it shows page with time is up msg, correct answer and gif
-        unansweredTotal++;
-        console.log(unansweredTotal);
-        showSection(showAnswer);
-        $("#correct-answer").html("<h3> Time is up! </h3><br>" + "<h3> The correct answer is " + triviaGame[currentQuestion].correctAnswer + "!" + "<h3>");
-        $("#answer-gif").html('<img class="gifs" src="' + triviaGame[currentQuestion].image + '"/>');
-        transition();
-    }
-}
-
 function transition() {
      if (currentQuestion === triviaGame.length - 1) {
             setTimeout(results(), 3000);
@@ -169,14 +169,17 @@ function transition() {
         else {
             setTimeout(nextQuestion(), 3000);
             showSection(showQuestion);
-        } 
+        }
 }
 
 // Function to show the stats and give an option to click on a reset button to play again after game is over
 function results() {
+    if (currentQuestion === triviaGame.length - 1) {
+        showSection(showResults);
     $("#correct-total").html("<h3> Correct answers: " + correctTotal + "</h3>");
     $("#incorrect-total").html("<h3> Incorrect answers: " + incorrectTotal + "</h3>");
     $("#unanswered-total").html("<h3> Unanswered answers: " + unansweredTotal + "</h3>");
+}
 }
 
 // Function to reset and restart game when clicking "play again?" button
