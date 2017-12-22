@@ -52,7 +52,6 @@ var correctTotal = 0;
 var incorrectTotal = 0;
 var unansweredTotal = 0;
 var timeLeft = 20;
-var transitionTime;
 var interval;
 var playerChoice = "";
 var correctOption;
@@ -112,7 +111,7 @@ function timeUp() {
         unansweredTotal++;
         console.log(unansweredTotal);
         showSection(showAnswer);
-        $("#correct-answer").html("<h3> Time is up! </h3><br>" + "<h3> The correct answer is " + triviaGame[currentQuestion].correctAnswer + "!" + "<h3>");
+        $("#correct-answer").html("<h3> Time is up! </h3>" + "<h3> The correct answer is " + triviaGame[currentQuestion].correctAnswer + "!" + "<h3>");
         $("#answer-gif").html('<img class="gifs" src="' + triviaGame[currentQuestion].image + '"/>');
         transition();
     }
@@ -147,40 +146,35 @@ function answeredCorrectly() {
     correctTotal++;
     console.log(correctTotal);
     showSection(showAnswer);
-    $("#correct-answer").html("<h3> Awesome! </h3><br>" + "<h3> You got it right!</h3>");
+    $("#correct-answer").html("<h3> Awesome! </h3>" + "<h3> You got it right!</h3>");
     $("#answer-gif").html('<img class="gifs" src="' + triviaGame[currentQuestion].image + '"/>');
-    // transition();
+    transition();
 }
 
 function answeredIncorrectly() {
     incorrectTotal++;
     console.log(incorrectTotal);
     showSection(showAnswer);
-    $("#correct-answer").html("<h3> Bummer! </h3><br>" + "<h3> The correct answer is " + triviaGame[currentQuestion].correctAnswer + "!" + "</h3>");
+    $("#correct-answer").html("<h3> Bummer! </h3>" + "<h3> The correct answer is " + triviaGame[currentQuestion].correctAnswer + "!" + "</h3>");
     $("#answer-gif").html('<img class="gifs" src="' + triviaGame[currentQuestion].image + '"/>');
-    // transition();
+    transition();
 }
 
 function transition() {
-     if (currentQuestion === triviaGame.length - 1) {
-            setTimeout(results(), 3000);
-            showSection(showResults);
-        }
-        else {
-            setTimeout(nextQuestion(), 3000);
-            showSection(showQuestion);
-        }
+    $("#next").click(function () {
+        showSection(showQuestion);
+        nextQuestion();
+    })
 }
 
 // Function to show the stats and give an option to click on a reset button to play again after game is over
 function results() {
-    if (currentQuestion === triviaGame.length - 1) {
-        showSection(showResults);
+    showSection(showResults);
     $("#correct-total").html("<h3> Correct answers: " + correctTotal + "</h3>");
     $("#incorrect-total").html("<h3> Incorrect answers: " + incorrectTotal + "</h3>");
     $("#unanswered-total").html("<h3> Unanswered answers: " + unansweredTotal + "</h3>");
 }
-}
+
 
 // Function to reset and restart game when clicking "play again?" button
 $("#play-again").click(function () {
@@ -194,9 +188,3 @@ $("#play-again").click(function () {
     runTimer();
     checkAnswer();
 })
-
-
-/* Issues:
- 3) The transition timer is not working. 
-
-  */
