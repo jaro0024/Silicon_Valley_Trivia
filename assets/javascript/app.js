@@ -108,7 +108,7 @@ function timeUp() {
         console.log(unansweredTotal);
         showSection(showAnswer);
         $("#correct-answer").html("<h3> Time is up! </h3>" + "<h3> The correct answer is " + triviaGame[currentQuestion].correctAnswer + "!" + "<h3>");
-        $("#answer-gif").html('<img class="gifs" src="' + triviaGame[currentQuestion].image + '"/>');
+        $("#answer-gif").html('<img class="gifs img-responsive" src="' + triviaGame[currentQuestion].image + '"/>');
     }
 }
 
@@ -187,6 +187,7 @@ $("#play-again").click(function () {
     incorrectTotal = 0;
     unansweredTotal = 0;
     timeLeft = 20;
+    $("#next").text("NEXT");
     createQuestion();
     runTimer();
 })
