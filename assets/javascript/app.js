@@ -2,7 +2,6 @@
 // Ready function
 $(function () {
     showSection(showStart);
-    initGame();
 })
 
 // Array for the trivia game including question, answers, correct answer and image for the correct answer
@@ -51,7 +50,7 @@ var showResults = $("#results-section");
 var correctTotal = 0;
 var incorrectTotal = 0;
 var unansweredTotal = 0;
-var timeLeft = 20;
+var timeLeft = 15;
 var interval;
 var playerChoice = "";
 var correctOption;
@@ -70,13 +69,10 @@ function showSection(sectionId) {
     }
 }
 
-// Function to start game by clicking the "start game" button
-function initGame() {
-    $("#start-game").click(function () {
-        showSection(showQuestion);
-        createQuestion();
-    })
-}
+$("#start-game").click(function () {
+    showSection(showQuestion);
+    createQuestion();
+})
 
 // Function to get question and possible answers for that question 
 function createQuestion() {
@@ -91,7 +87,6 @@ function createQuestion() {
     $("#answerC").html(triviaGame[currentQuestion].answers[2]);
     $("#answerD").html(triviaGame[currentQuestion].answers[3]);
     // Run function to check what player clicked and compare to correct answer
-    checkAnswer();
 }
 
 // Function to run the timer
@@ -114,19 +109,17 @@ function timeUp() {
         showSection(showAnswer);
         $("#correct-answer").html("<h3> Time is up! </h3>" + "<h3> The correct answer is " + triviaGame[currentQuestion].correctAnswer + "!" + "<h3>");
         $("#answer-gif").html('<img class="gifs" src="' + triviaGame[currentQuestion].image + '"/>');
-        transition();
     }
 }
 
 // Function to go to next question after player answers a question or time runs out
 function nextQuestion() {
     currentQuestion++;
-    timeLeft = 20;
+    timeLeft = 15;
     createQuestion();
 }
 
 // Function to get player's answer and check if it is correct or not
-function checkAnswer() {
     $(".options").click(function () {
         playerChoice = $(this).text();
         console.log(playerChoice);
@@ -140,7 +133,7 @@ function checkAnswer() {
             answeredIncorrectly();
         }
     })
-}
+
 
 function answeredCorrectly() {
     correctTotal++;
@@ -148,7 +141,6 @@ function answeredCorrectly() {
     showSection(showAnswer);
     $("#correct-answer").html("<h3> Awesome! </h3>" + "<h3> You got it right!</h3>");
     $("#answer-gif").html('<img class="gifs" src="' + triviaGame[currentQuestion].image + '"/>');
-    transition();
 }
 
 function answeredIncorrectly() {
@@ -157,15 +149,18 @@ function answeredIncorrectly() {
     showSection(showAnswer);
     $("#correct-answer").html("<h3> Bummer! </h3>" + "<h3> The correct answer is " + triviaGame[currentQuestion].correctAnswer + "!" + "</h3>");
     $("#answer-gif").html('<img class="gifs" src="' + triviaGame[currentQuestion].image + '"/>');
-    transition();
 }
 
-function transition() {
     $("#next").click(function () {
         showSection(showQuestion);
-        nextQuestion();
+        // nextQuestion();
+        if(currentQuestion < triviaGame.length - 1) {
+            nextQuestion();
+        }
+        else {
+            results();
+        }
     })
-}
 
 // Function to show the stats and give an option to click on a reset button to play again after game is over
 function results() {
@@ -183,7 +178,7 @@ $("#play-again").click(function () {
     correctTotal = 0;
     incorrectTotal = 0;
     unansweredTotal = 0;
-    timeLeft = 20;
+    timeLeft = 15;
     createQuestion();
     runTimer();
     checkAnswer();
