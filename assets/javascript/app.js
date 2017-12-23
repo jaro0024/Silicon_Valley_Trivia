@@ -50,7 +50,7 @@ var showResults = $("#results-section");
 var correctTotal = 0;
 var incorrectTotal = 0;
 var unansweredTotal = 0;
-var timeLeft = 15;
+var timeLeft = 20;
 var interval;
 var playerChoice = "";
 var correctOption;
@@ -63,18 +63,19 @@ function showSection(sectionId) {
     showQuestion.hide();
     showAnswer.hide();
     showResults.hide();
-    // Show only the sectionId section
+    // Show only the choosen section
     if (sectionId) {
         sectionId.show();
     }
 }
 
+// Button to start game - when clicked it will show first question
 $("#start-game").click(function () {
     showSection(showQuestion);
     createQuestion();
 })
 
-// Function to get question and possible answers for that question 
+// Function to get first question and possible answers for that question 
 function createQuestion() {
     // Get timer to show on page and run the timer function
     $("#timer").html("<h3>" + "Time remaining: " + timeLeft + "</h3>");
@@ -86,10 +87,9 @@ function createQuestion() {
     $("#answerB").html(triviaGame[currentQuestion].answers[1]);
     $("#answerC").html(triviaGame[currentQuestion].answers[2]);
     $("#answerD").html(triviaGame[currentQuestion].answers[3]);
-    // Run function to check what player clicked and compare to correct answer
 }
 
-// Function to run the timer
+// Function to create and run the timer
 function runTimer() {
     clearInterval(interval);
     interval = setInterval(timeUp, 1000);
@@ -103,7 +103,7 @@ function timeUp() {
     // When time gets down all the way to zero, timer stops 
     if (timeLeft <= 0) {
         clearInterval(interval);
-        // Number of unanswered questions increase by 1 and it shows page with time is up msg, correct answer and gif
+        // Number of unanswered questions increase by 1 and it shows page with "time is up" message, correct answer and gif
         unansweredTotal++;
         console.log(unansweredTotal);
         showSection(showAnswer);
@@ -115,26 +115,27 @@ function timeUp() {
 // Function to go to next question after player answers a question or time runs out
 function nextQuestion() {
     currentQuestion++;
-    timeLeft = 15;
+    timeLeft = 20;
     createQuestion();
 }
 
 // Function to get player's answer and check if it is correct or not
-    $(".options").click(function () {
-        playerChoice = $(this).text();
-        console.log(playerChoice);
-        clearInterval(interval);
-        correctOption = triviaGame[currentQuestion].correctAnswer;
-        console.log(correctOption);
-        if (playerChoice === correctOption) {
-            answeredCorrectly();
-        }
-        else {
-            answeredIncorrectly();
-        }
-    })
+$(".options").click(function () {
+    playerChoice = $(this).text();
+    console.log(playerChoice);
+    clearInterval(interval);
+    correctOption = triviaGame[currentQuestion].correctAnswer;
+    console.log(correctOption);
+    // If player's choice is correct, run the function for answered correctly. Else, it will run the function for answered incorrectly
+    if (playerChoice === correctOption) {
+        answeredCorrectly();
+    }
+    else {
+        answeredIncorrectly();
+    }
+})
 
-
+// If player guesses correctly, correct total increases by 1 and it shows page with "you got it right" message and gif
 function answeredCorrectly() {
     correctTotal++;
     console.log(correctTotal);
@@ -143,6 +144,7 @@ function answeredCorrectly() {
     $("#answer-gif").html('<img class="gifs" src="' + triviaGame[currentQuestion].image + '"/>');
 }
 
+// If player guesses incorrectly, incorrect total increases by 1 and it shows page with "sorry" message, correct answer and gif
 function answeredIncorrectly() {
     incorrectTotal++;
     console.log(incorrectTotal);
@@ -151,16 +153,23 @@ function answeredIncorrectly() {
     $("#answer-gif").html('<img class="gifs" src="' + triviaGame[currentQuestion].image + '"/>');
 }
 
-    $("#next").click(function () {
-        showSection(showQuestion);
-        // nextQuestion();
-        if(currentQuestion < triviaGame.length - 1) {
-            nextQuestion();
-        }
-        else {
-            results();
-        }
-    })
+// Button to move to next question
+$("#next").click(function () {
+    showSection(showQuestion);
+    // If not last question, move to next question when clicked
+    if (currentQuestion < triviaGame.length - 1) {
+        nextQuestion();
+    }
+    // If last question, show results page
+    else {
+        results();
+    }
+    // If statement to change text on the button of last question answered
+    if (currentQuestion === triviaGame.length - 1) {
+        $("#next").text("GET RESULTS");
+    }
+})
+
 
 // Function to show the stats and give an option to click on a reset button to play again after game is over
 function results() {
@@ -170,7 +179,6 @@ function results() {
     $("#unanswered-total").html("<h3> Unanswered answers: " + unansweredTotal + "</h3>");
 }
 
-
 // Function to reset and restart game when clicking "play again?" button
 $("#play-again").click(function () {
     showSection(showQuestion);
@@ -178,8 +186,7 @@ $("#play-again").click(function () {
     correctTotal = 0;
     incorrectTotal = 0;
     unansweredTotal = 0;
-    timeLeft = 15;
+    timeLeft = 20;
     createQuestion();
     runTimer();
-    checkAnswer();
 })

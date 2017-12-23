@@ -23,6 +23,7 @@
                 <h1 class="display-3 text-center">Silicon Valley Trivia</h1>
             </div>
         </div>
+        <!-- Section to show at the start of game after ready function runs -->
         <div class="row text-center" id="start-section">
             <div class="col-md-12">
                 <iframe src="https://giphy.com/embed/YlopNQNixguRy" width="480" height="270" frameBorder="0" class="giphy-embed" allowFullScreen
@@ -32,6 +33,7 @@
                 <button type="button" class="btn btn-secondary btn-lg" id="start-game">Start Game</button>
             </div>
         </div>
+        <!-- Section to show questions and possible answers -->
         <div class="row text-center" id="question-section">
             <div class="col-md-12" id="timer">
 
@@ -52,6 +54,7 @@
                 <button type="button" class="btn btn-secondary btn-lg options" id="answerD" value="4"></button>
             </div>
         </div>
+        <!-- Section to show whether or not player guessed correctly, to show the correct answer and a next question button-->
         <div class="row text-center" id="answer-section">
             <div class="col-md-12" id="correct-answer">
 
@@ -63,6 +66,7 @@
                 <button type="button" class="btn btn-secondary btn-lg" id="next">NEXT</button>
             </div>
         </div>
+        <!-- Section to show the results after the player went through all questions and the button to play again -->
         <div class="row text-center" id="results-section">
             <div class="col-md-12" id="correct-total">
 
@@ -80,7 +84,8 @@
                 <button type="button" class="btn btn-secondary btn-lg" id="play-again">Play again?</button>
             </div>
         </div>
-        <div class="row text-center">
+        <!-- Section with audio -->
+        <div class="row text-center" id="audio">
             <div class="col-md-12">
                 <audio autoplay loop controls>
                     <source src="assets/audio/siliconvalley.mp3">
